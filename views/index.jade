@@ -36,5 +36,8 @@ html(lang="en")
         max-width: 500px;
       }
   body
-    img(src="/public/img/gaga-just-dance.png")
-    img(src="/public/img/2ne1-i-love-you.png")
+    img(src="/public/img/gaga-just-dance.png", id="gaga")
+    img(src="/public/img/2ne1-i-love-you.png", id="2ne1")
+    script.
+      var an = new analyzer();
+      an.run("gaga");
