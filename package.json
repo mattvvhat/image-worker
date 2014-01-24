@@ -1,0 +1,21 @@
+{
+  "name": "image-worker",
+  "author": "Matt Owen",
+  "version": "0.0.0",
+  "description": "Web workers for Image Analysis",
+  "main": "./app.js",
+  "dependencies": {
+    "express": "3.x.x",
+    "jade": "1.x.x",
+    "colors": "0.6.x"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "subdomain": "",
+  "domains": [ ]
+}
