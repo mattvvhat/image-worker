@@ -7,15 +7,21 @@ analyzer.prototype.run = function (el) {
 
   this.srcToUint8Array(
     el.src,
-    function (array) {
+    function (imgData) {
       var worker = new Worker('/public/js/color.worker.js');
 
       worker.onmessage = function (e) {
+        var pixels = new Uint8Array(e.data);
+        var canvas = document.createElement('CANVAS');
+        var contex = canvas.getContext('2d');
 
+        contex.putImageData(imgData, 0, 0);
+
+        windowPopup(canvas.toDataURL(), el.width, el.height, 100, 100);
       };
 
       // USE TRANSFERRABLE OBJECTS
-      worker.postMessage(array.data.buffer, [ array.data.buffer ]);
+      worker.postMessage(imgData.data.buffer, [ imgData.data.buffer ]);
     }
   );
 
@@ -43,7 +49,6 @@ analyzer.prototype.srcToUint8Array = function (src, callback) {
     canvas.width  = img.width;
     canvas.height = img.height;
     contex.drawImage(img, 0, 0, canvas.width, canvas.height);
-    window.open(canvas.toDataURL(), '_blank', 'width = ' + canvas.width + ' height = ' + canvas.height);
 
     var array = new Uint8Array();
     var imgData = contex.getImageData(0, 0, canvas.width, canvas.height);
@@ -56,3 +61,14 @@ analyzer.prototype.srcToUint8Array = function (src, callback) {
     }
   };
 };
+
+
+/**
+ *
+ */
+function windowPopup (url, width, height, x, y) {
+  var opts;
+  opts  = 'width=' + width + ',height=' + height;
+  opts += ',left=' + 100 + ',top=' + y;
+  window.open(url, '_blank', opts);
+}
