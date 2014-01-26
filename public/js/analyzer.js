@@ -13,11 +13,13 @@ analyzer.prototype.run = function (el) {
       worker.onmessage = function (e) {
         var pixels = new Uint8Array(e.data);
         var canvas = document.createElement('CANVAS');
+        canvas.width = imgData.width;
+        canvas.height = imgData.height;
         var contex = canvas.getContext('2d');
 
         contex.putImageData(imgData, 0, 0);
 
-        windowPopup(canvas.toDataURL(), el.width, el.height, 100, 100);
+        windowPopup(canvas.toDataURL(), imgData.width, imgData.height, 100, 100);
       };
 
       // USE TRANSFERRABLE OBJECTS
@@ -67,8 +69,13 @@ analyzer.prototype.srcToUint8Array = function (src, callback) {
  *
  */
 function windowPopup (url, width, height, x, y) {
-  var opts;
-  opts  = 'width=' + width + ',height=' + height;
-  opts += ',left=' + 100 + ',top=' + y;
-  window.open(url, '_blank', opts);
+  var opt_string = '';
+  opt_string += 'height=' + height;
+  opt_string += ',width=' + width;
+  opt_string += ',left=' + (x - 0);
+  opt_string += ',top=' + (y - 0);
+  opt_string += ',menubar=no';
+  opt_string += ',location=no';
+  opt_string += ',status=no';
+  window.open(url, '_blank', opt_string);
 }
